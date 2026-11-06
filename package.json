@@ -1,6 +1,6 @@
 {
   "name": "@isaacs/test-advisory-reporting-repo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Test package for the GitHub security advisory fixer. It has a known flaw on purpose. Do not use it.",
   "type": "module",
   "main": "index.js",
