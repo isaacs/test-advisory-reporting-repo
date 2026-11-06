@@ -1,1 +1,15 @@
-{"type": "module"}
+{
+  "name": "@isaacs/test-advisory-reporting-repo",
+  "version": "1.0.0",
+  "description": "Test package for the GitHub security advisory fixer. It has a known flaw on purpose. Do not use it.",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaacs/test-advisory-reporting-repo.git"
+  }
+}
