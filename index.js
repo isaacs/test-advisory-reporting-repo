@@ -1,11 +1,26 @@
-import { join } from 'path'
+import { join, sep } from 'path'
+
+const splitRe = sep === '\\' ? /[\\/]+/ : /\/+/
 
 /**
  * Promise: the resulting path CANNOT escape the root!
- * 
+ *
+ * `..` segments are resolved against the root, and never go above it,
+ * the same way `..` at the filesystem root stays at the filesystem root.
+ * Absolute paths in `paths` are treated as relative to `root`.
+ * This never throws on a hostile path.
+ *
  * @param {string} root
  * @param {string[]} paths
  */
 export function safeJoin(root, ...paths) {
-  return join(root, ...paths)
+  const stack = []
+  for (const p of paths) {
+    for (const seg of String(p).split(splitRe)) {
+      if (seg === '' || seg === '.') continue
+      if (seg === '..') stack.pop()
+      else stack.push(seg)
+    }
+  }
+  return join(root, ...stack)
 }
