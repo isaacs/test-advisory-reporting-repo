@@ -11,5 +11,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/isaacs/test-advisory-reporting-repo.git"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6"
+  },
+  "scripts": {
+    "test": "node --test"
   }
 }
