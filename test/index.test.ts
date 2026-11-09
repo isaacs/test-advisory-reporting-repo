@@ -48,3 +48,17 @@ test('isInside', () => {
   assert.equal(isInside(root, resolve('/path/to')), false)
   assert.equal(isInside(root, resolve('/etc/passwd')), false)
 })
+
+test('isInside rejects sibling folders that share the root name as a prefix', () => {
+  const root = resolve('/srv/app')
+  assert.equal(isInside(root, resolve('/srv/app-secrets/key')), false)
+  assert.equal(isInside(root, resolve('/srv/application')), false)
+  assert.equal(isInside(root + sep, resolve('/srv/app-secrets/key')), false)
+  assert.equal(isInside(root, root + sep), true)
+  assert.equal(isInside(root, join(root, 'key')), true)
+  assert.equal(isInside(root + sep, join(root, 'key')), true)
+  // filesystem root contains everything
+  const fsRoot = resolve('/')
+  assert.equal(isInside(fsRoot, resolve('/etc/passwd')), true)
+  assert.equal(isInside(fsRoot, fsRoot), true)
+})

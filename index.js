@@ -32,5 +32,11 @@ export function safeJoin(root, ...paths) {
  * @param {string} path
  */
 export function isInside(root, path) {
-  return resolve(path).startsWith(resolve(root))
+  const r = resolve(root)
+  const p = resolve(path)
+  if (p === r) return true
+  // require a path separator right after the root, so that a sibling
+  // such as `/srv/app-secrets` is not considered inside `/srv/app`
+  const prefix = r.endsWith(sep) ? r : r + sep
+  return p.startsWith(prefix)
 }
