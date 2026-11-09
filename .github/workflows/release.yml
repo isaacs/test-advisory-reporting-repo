@@ -4,7 +4,10 @@
 #
 # Trusted publishing (OIDC) authenticates the job, so no npm token
 # is stored. On npmjs.com, the package's trusted publisher entry
-# must name this repository and the workflow file `release.yml`.
+# must name this repository, the workflow file `release.yml`, and
+# the environment `npm`. The `npm` environment accepts only `v*`
+# tags, and a ruleset lets only admins and the ghsa-fixer App
+# create those tags.
 
 name: Release
 
@@ -20,6 +23,7 @@ permissions:
 jobs:
   stage:
     runs-on: ubuntu-latest
+    environment: npm
     steps:
       - uses: actions/checkout@v6
 
