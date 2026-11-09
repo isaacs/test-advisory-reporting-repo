@@ -1,4 +1,4 @@
-import { join, sep } from 'path'
+import { join, resolve, sep } from 'path'
 
 const splitRe = sep === '\\' ? /[\\/]+/ : /\/+/
 
@@ -23,4 +23,14 @@ export function safeJoin(root, ...paths) {
     }
   }
   return join(root, ...stack)
+}
+
+/**
+ * Promise: true only when `path` is `root` or inside it.
+ *
+ * @param {string} root
+ * @param {string} path
+ */
+export function isInside(root, path) {
+  return resolve(path).startsWith(resolve(root))
 }

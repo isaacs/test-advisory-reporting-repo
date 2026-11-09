@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert'
-import { safeJoin } from '../index.js'
+import { isInside, safeJoin } from '../index.js'
 import { resolve, join, sep } from 'node:path'
 
 const cases: [root: string, ...parts: string[]][] = [
@@ -39,4 +39,12 @@ test('normal paths behave like path.join', () => {
   assert.equal(safeJoin(root), join(root))
   assert.equal(safeJoin(root, '..'), join(root))
   assert.equal(safeJoin(root, '../c'), join(root, 'c'))
+})
+
+test('isInside', () => {
+  const root = resolve('/path/to/project')
+  assert.equal(isInside(root, root), true)
+  assert.equal(isInside(root, join(root, 'a', 'b')), true)
+  assert.equal(isInside(root, resolve('/path/to')), false)
+  assert.equal(isInside(root, resolve('/etc/passwd')), false)
 })
