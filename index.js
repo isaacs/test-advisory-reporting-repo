@@ -1,4 +1,4 @@
-import { join, resolve, sep } from 'path'
+import { isAbsolute, join, resolve, sep } from 'path'
 
 const splitRe = sep === '\\' ? /[\\/]+/ : /\/+/
 
@@ -27,11 +27,14 @@ export function safeJoin(root, ...paths) {
 
 /**
  * Promise: true only when `path` is `root` or inside it.
+ * A `path` that is not absolute is rejected (returns false), rather
+ * than being resolved against the current working directory.
  *
  * @param {string} root
  * @param {string} path
  */
 export function isInside(root, path) {
+  if (!isAbsolute(String(path))) return false
   const r = resolve(root)
   const p = resolve(path)
   if (p === r) return true

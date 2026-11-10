@@ -62,3 +62,13 @@ test('isInside rejects sibling folders that share the root name as a prefix', ()
   assert.equal(isInside(fsRoot, resolve('/etc/passwd')), true)
   assert.equal(isInside(fsRoot, fsRoot), true)
 })
+
+test('isInside rejects a path that is not absolute', () => {
+  // relative paths would otherwise be resolved against process.cwd()
+  const root = process.cwd()
+  assert.equal(isInside(root, 'a'), false)
+  assert.equal(isInside(root, join('a', 'b')), false)
+  assert.equal(isInside(root, '.'), false)
+  assert.equal(isInside(root, ''), false)
+  assert.equal(isInside(root, join(root, 'a')), true)
+})
